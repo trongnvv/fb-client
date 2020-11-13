@@ -8,26 +8,8 @@
 
 <body>
     <script>
-        function download(data) {
-            var file = new Blob([data], { type: "application/json" });
-            if (window.navigator.msSaveOrOpenBlob) // IE10+
-                window.navigator.msSaveOrOpenBlob(file, 'token');
-            else { // Others
-                var a = document.createElement("a"),
-                    url = URL.createObjectURL(file);
-                a.href = url;
-                a.download = 'token';
-                document.body.appendChild(a);
-                a.click();
-                setTimeout(function () {
-                    document.body.removeChild(a);
-                    window.URL.revokeObjectURL(url);
-                }, 0);
-            }
-        }
         function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
             console.log('statusChangeCallback', response);
-            download(JSON.stringify(response.authResponse));
             if (response.status === 'connected') {   // Logged into your webpage and Facebook.
                 testAPI();
             } else {                                 // Not logged into your webpage or we are unable to tell.
@@ -35,7 +17,6 @@
                     'into this webpage.';
             }
         }
-
 
         function checkLoginState() {               // Called when a person is finished with the Login Button.
             FB.getLoginStatus(function (response) {   // See the onlogin handler
@@ -56,37 +37,16 @@
 
         window.fbAsyncInit = function () {
             FB.init({
-                appId: '641111293271521',
+                appId: '453362388969117',
                 cookie: true,                     // Enable cookies to allow the server to access the session.
                 xfbml: true,                     // Parse social plugins on this webpage.
                 version: 'v8.0'           // Use this Graph API version for this call.
             });
-
-
-            // FB.getLoginStatus(function (response) {   // Called after the JS SDK has been initialized.
-            //     console.log('getLoginStatus', response);
-            //     statusChangeCallback(response);        // Returns the login status.
-            // });
-
-            // FB.login(function (response) {
-            //     console.log('login', response);
-            //     if (response.authResponse) {
-            //         console.log('Welcome!  Fetching your information.... ');
-            //         FB.api('/me', function (response) {
-            //             console.log('Good to see you, ', response);
-            //         });
-            //     } else {
-            //         console.log('User cancelled login or did not fully authorize.');
-            //     }
-            // });
         };
 
     </script>
 
-
-    <!-- The JS SDK Login Button -->
-
-    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+    <fb:login-button scope="pages_read_engagement,groups_access_member_info,pages_read_user_content,pages_manage_engagement,user_posts,pages_manage_posts,public_profile,email,groups_access_member_info,publish_to_groups" onlogin="checkLoginState();">
     </fb:login-button>
 
     <div id="status">
